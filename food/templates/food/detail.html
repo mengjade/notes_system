@@ -1,0 +1,66 @@
+{% extends 'food/base.html' %}
+{% block title %}{{ food.cook_name }}{% endblock %}
+
+{% block body %}
+	<!-- Button inactive & Button Active & Panel Background color-->
+	<style>
+	    .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+	        color: white;
+	        background-color: #FF847C;
+	    }
+
+	    .nav-pills > li.active > a:hover {
+	        background-color: #FD6378;
+	        color:white;
+	    }
+		.panel-body {
+			background: #ffffff;
+		}
+	</style>
+
+    <div class="col-sm-offset-1 col-sm-10">
+
+		<!-- Two Buttons -->
+        <div class="col-sm-8 col-md-9">
+           <ul class="nav nav-pills" style="margin-bottom: 10px;">
+               <li role="presentation" class="active"><a href='http://127.0.0.1:8000/food/{{pk}}/modify_notes'>Modify Notes</a></li>
+               <li role="presentation" class="active"><a href='http://127.0.0.1:8000/food/{{pk}}/delete_notes'>Delete Notes</a></li>
+           </ul>
+        </div>
+
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+			    <div class="panel-body">
+			        <table class="table">
+
+			            <thead>
+			                <tr>
+								<td bgcolor="f2f2f2"> <font color="#6a6b6d"><b>{{ food.cook_name }}</b></font></td>
+							</tr>
+			            </thead>
+
+			            <tbody>
+					        <tr>
+						   		<td>
+									</br>
+						            <div style="white-space:pre"><font color="5E616A">Tag: {{ food.tag }}</font></div>
+						            <div style="white-space:pre"><font color="5E616A">食材: {{ food.cook_ing }}</font></div>	
+						            <div style="white-space:pre"><font color="5E616A">菜式: {{ food.cook_cat }}</font></div>	
+									{% if food.comment %}
+						            	<div style="white-space:pre"><font color="5E616A">Comment: {{ food.comment }}</font></div>	
+									{% endif %}
+
+									</br>
+						            <div style="white-space:pre"><font color="5E616A">步骤: </font></div>	
+						            <div style="white-space:pre"><font color="5E616A">{{ food.info_text|linebreaks }}</font></div>
+						            {% if food.pic_file %}
+						                <img src="{{ food.pic_file.url }}" class="img-responsive">
+						            {% endif %}
+				            	</td>
+					        </tr>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+    </div>
+{% endblock %}

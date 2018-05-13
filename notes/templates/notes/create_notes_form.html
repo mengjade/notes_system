@@ -1,0 +1,42 @@
+{% for field in form %}
+    <div class="form-group">
+
+	    {%if field.label == "Note type"%}
+            <label class="control-label col-sm-2">Note Type</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="note_type" style="width:40%">
+            </div>
+        {%elif field.label == "Sub category"%}
+            <label class="control-label col-sm-2">Tab</label>
+	        <div class="col-sm-10">
+	           <input class="form-control" type="text" name="sub_category" style="width:40%">
+	        </div>
+        {%elif field.label == "Info group"%}
+            <label class="control-label col-sm-2">Group</label>
+	        <div class="col-sm-10">
+	           <input class="form-control" type="text" name="info_group" style="width:100%">
+	        </div>
+        {%elif field.label == "Info title"%}
+            <label class="control-label col-sm-2">Title</label>
+	        <div class="col-sm-10">
+	           <input class="form-control" type="text" name="info_title" style="width:100%">
+	        </div>
+        {%elif field.label == "Info text"%}
+            <label class="control-label col-sm-2">Content</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="10" name="info_text"></textarea>
+            </div>
+        {%elif field.label == "Pic file"%}
+            <label class="control-label col-sm-2">Image</label>
+	        <div class="col-sm-10">
+		        <input type="file" name="pic_file">
+	        </div>
+        {%else%}
+            <label class="control-label col-sm-2">Comment</label>
+	        <div class="col-sm-10">
+				<textarea class="form-control" rows="3" name="comment"></textarea>
+	        </div>
+        {%endif%}
+        
+    </div>
+{% endfor%}

@@ -1,0 +1,40 @@
+{% for field in form %}
+    <div class="form-group">
+
+        {%if field.label == "Cook name"%}
+            <label class="control-label col-sm-2">菜名</label>
+	        <div class="col-sm-10">
+	           <input class="form-control" type="text" name="cook_name" style="width:40%">
+	        </div>
+
+	    {%elif field.label == "Tag"%}
+            <label class="control-label col-sm-2">Tag</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="tag" style="width:40%">
+            </div>
+
+	    {%elif field.label == "Cook ing"%}
+            <label class="control-label col-sm-2">食材</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="cook_ing" style="width:100%">
+            </div>
+
+        {%elif field.label == "Cook cat"%}
+            <label class="control-label col-sm-2">菜式</label>
+	        <div class="col-sm-10">
+	           <input class="form-control" type="text" name="cook_cat" style="width:40%">
+	        </div>
+        {%elif field.label == "Info text"%}
+            <label class="control-label col-sm-2">步骤</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="10" name="info_text"></textarea>
+            </div>
+        {%else%}
+            <label class="control-label col-sm-2">Image</label>
+	        <div class="col-sm-10">
+		        <input type="file" name="pic_file">
+	        </div>
+        {%endif%}
+        
+    </div>
+{% endfor%}

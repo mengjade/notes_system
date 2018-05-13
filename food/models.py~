@@ -1,0 +1,17 @@
+from django.db import models
+from django.core.urlresolvers import reverse
+
+# Create your models here.
+class Food(models.Model):
+    cook_ing = models.CharField(max_length = 20)
+    cook_name = models.CharField(max_length = 20)
+    cook_cat = models.CharField(max_length = 50)
+    tag = models.CharField(max_length = 50)
+    info_text = models.CharField(max_length = 100000)
+    pic_file = models.FileField(blank=True,null=True)
+ 
+    def get_absolute_url(self):
+        return reverse('food:detail', kwargs = {'pk': self.pk})    
+   
+    def __str__(self):
+        return (self.cook_name) + str(self.pk)

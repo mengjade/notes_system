@@ -1,0 +1,35 @@
+{% extends 'food/base.html' %} 
+{% load staticfiles %}
+{% block body %}
+    <style>
+.panel {
+    border: 0;
+}
+    </style>
+
+
+	<div class="col-sm-offset-1 col-sm-10">
+
+		</br>
+		<div class="panel panel-default">
+		    <div class="panel-body" color = "#FFD6D6">
+				<font size="10" color="#52575D" face="Asana Math"> Hello! </font>
+				<font size="4" color="#000000" face="Asana Math"> What's for</font>	
+				<font size="5" color="#FA5B75" face="Purisa"> DINNER</font>	
+				<font size="4" color="#000000" face="Asana Math"> , </font>
+				<font size="6" color="#FA5B75" face="Purisa"> LUNCH</font>
+				<font size="4" color="#000000" face="Asana Math"> &</font>
+				<font size="10" color="#FA5B75" face="Purisa"> BREAKFAST</font>	
+				<font size="4" color="#000000" face="Asana Math"> ? </font> </br>
+
+				<span class="glyphicon glyphicon-play" style="color:#FA8072"></span> 
+				<a href='http://127.0.0.1:8000/food/recipe/'> <font size="4" face="Asana Math" color="#2E4053"> Recipes </font>  </a> </br>
+				<span class="glyphicon glyphicon-play" style="color:#FA8072"></span> 
+				<a href='http://127.0.0.1:8000/food/sweet/me/'> <font size="4" face="Asana Math" color="#2E4053"> Desserts </font>  </a> </br>
+				<span class="glyphicon glyphicon-play" style="color:#FA8072"></span> 
+				<a href='http://127.0.0.1:8000/food/whattocook/'> <font size="4" face="Asana Math" color="#2E4053"> What to COOK today?</font>  </a> </br>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

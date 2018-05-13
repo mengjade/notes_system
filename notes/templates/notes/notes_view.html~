@@ -1,0 +1,90 @@
+{% extends 'notes/base.html' %}
+{% block title %}{{note_type_new}}{% endblock %}
+
+{% block body %}
+    <style>
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+            color: white;
+            background-color: #2DB6A3;
+        }
+
+        .nav-pills > li.active > a:hover {
+            background-color: #22C7A9;
+            color:white;
+        }
+
+    	.panel-body {
+    	    background:#F9F8EB;
+        }
+    </style>
+
+
+    <div class="column">
+
+		{%if show_tc == 1%}
+			<a href='http://127.0.0.1:8000/notes/{{note_type}}/{{sub_category}}/tc'><font size="5" color="#FFFFFF" face="Asana Math"> Table of Contents </font></a>
+		{% endif %}
+
+		{%if show_sub_cats == 1%}
+		    <div class="col-sm-8 col-md-9">
+		       <ul class="nav nav-pills" style="margin-bottom: 10px;">
+		           {% for cat in all_sub_cat %}
+		               <li role="presentation" class="active" ><a href='http://127.0.0.1:8000/notes/{{note_type}}/{{cat}}'>{{cat}}</a></li>
+		           {% endfor %}
+		       </ul>
+		    </div>
+		{% endif %}
+
+		{%if show_labels == 1%}
+			<div class="col-sm-8 col-md-9">
+				<font size="10" color="#FFFFFF" face="Asana Math"> {{note_type_new}} </font>
+				<font size="5" color="#E2DCD5" face="Asana Math"> {{sub_category}} </font>
+		    </div>
+        {% endif%}
+
+        
+        {% for group in all_group %}
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+				    <div class="panel-body">
+				        <table class="table">
+
+						   <colgroup>
+							   <col span="1" style="width: 70%;">
+							   <col span="1" style="width: 30%;">
+							</colgroup>
+
+				            <thead>
+				                <tr>
+									<td bgcolor="E2DCD5"> <font color="#5E616A"><b>{{ group }}</b></font></td>
+									<td bgcolor="E2DCD5"> <font color="#5E616A"><b></b></font></td>
+								</tr>
+				            </thead>
+
+				            <tbody>
+				                {% for note in all_data %}
+									{% if note.info_group == group %}
+								        <tr>
+									   		<td>
+												<body bgcolor="red"><a href='http://127.0.0.1:8000/notes/{{note.pk}}'> <font color="#626FE6"><b>{{ note.info_title }}</b></font> </a></body>
+												</br></br>
+									            <div style="white-space:pre"><font color="black">{{ note.info_text|linebreaks }}</font></div>
+									            {% if note.pic_file %}
+									                <img src="{{ note.pic_file.url }}" class="img-responsive">
+									            {% endif %}
+							            	</td>
+											<td></br></br><div style="white-space:pre"><font color="#887575">{{ note.comment|linebreaks }}</font></div></td>
+								        </tr>
+									{% endif %}
+				                {% endfor %}
+				            </tbody>
+				        </table>
+				    </div>
+				</div>
+			</div>
+		{% endfor %}
+
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'notes/base.html' %} 
+{% load staticfiles %}
+{% block body %}
+	<div class="col-sm-offset-1 col-sm-10">
+
+		</br>
+		<div class="panel panel-default">
+		    <div class="panel-body">
+				<font size="10" color="#2E4053" face="Asana Math"> Hello</font>
+				<img src="{%  static 'leaf.png' %}" width="400"></br>
+				
+
+				{% for element in object_list %}
+				   <span class="glyphicon glyphicon-play" style="color:#FA8072"></span> 
+				   {% if element == 'SAS' %}
+				       <a href='http://127.0.0.1:8000/notes/{{element}}/'> <font size="4" face="Asana Math" color="#2E4053"> {{element}}</font>  </a> </br>
+				   {% if element == 'SQL' %}
+				       <a href='http://127.0.0.1:8000/notes/{{element}}/'> <font size="4" face="Asana Math" color="#2E4053"> {{element}}</font>  </a> </br>
+				   {% else %}
+				       <a href='http://127.0.0.1:8000/notes/{{element.lower}}/'> <font size="4" face="Asana Math" color="#2E4053"> {{element}}</font>  </a> </br>
+				   {% endif %}
+				{% endfor %}
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

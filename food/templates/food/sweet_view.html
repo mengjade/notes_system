@@ -1,0 +1,71 @@
+{% extends 'food/base.html' %}
+{% block title %}Recipes{% endblock %}
+
+{% block body %}
+    <style>
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+            color: white;
+            background-color: #FF847C;
+        }
+
+        .nav-pills > li.active > a:hover {
+            background-color: #FD6378;
+            color:white;
+        }
+
+    	.panel-body {
+    	    background:#ffffff;
+        }
+
+    </style>
+
+
+    <div class="col-sm-offset-1 col-sm-10">
+    
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+			    <div class="panel-body">
+			        <table class="table">
+
+					   <colgroup>
+						   <col span="1" style="width: 70%;">
+						   <col span="1" style="width: 30%;">
+						</colgroup>
+
+			            <tbody>
+			                {% for note in all_data %}
+							    <thead>
+							        <tr>
+										<td bgcolor="F2F2F2"> 
+											<a href='http://127.0.0.1:8000/food/{{note.pk}}'> 
+												<font color="#6a6b6d"><b>{{ note.cook_name }}</b></font>
+											</a>
+										</td>
+										<td bgcolor="F2F2F2"> 
+											<font color="#6a6b6d"><b></b></font>
+										</td>
+									</tr>
+
+							    </thead>
+
+						        <tr>
+							   		<td>
+							            <div style="white-space:pre"><font color="black">{{ note.info_text|linebreaks }}</font></div>
+					            	</td>
+
+									<td>
+										</br></br>
+										<div style="white-space:pre"><font color="#887575">{{ note.comment|linebreaks }}</font></div>
+									</td>
+						        </tr>
+			                {% endfor %}
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+		</div>
+
+
+
+    </div>
+{% endblock %}

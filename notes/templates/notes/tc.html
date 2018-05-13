@@ -1,0 +1,24 @@
+{% extends 'notes/base.html' %}
+{% block title %}{{note_type_new}}{% endblock %}
+
+{% block body %}
+	<div class="col-sm-offset-1 col-sm-10">
+		</br>
+		<div class="panel panel-default">
+		    <div class="panel-body">
+				<font size="10" color="#2E4053" face="Asana Math"> {{note_type_new}} </font>
+				<font size="5" color="#2E4053" face="Asana Math"> {{sub_category}} </font>
+        		{% for group in all_group %}
+					</br><a href='http://127.0.0.1:8000/notes/{{note_type}}/{{sub_category}}/{{group}}'><font size="3" color="#2E4053"> {{ group }} </font> </a>
+	                {% for note in all_data %}
+						{% if note.info_group == group %}
+							</br><a href='http://127.0.0.1:8000/notes/{{note.id}}/'> <font size="2" color="#3E3E3E"> --{{ note.info_title }} </font> </a>
+						{% endif %}		
+					{% endfor %}
+					</br>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+from django.conf.urls import url
+from . import views # . means current dir
+from .models import Food
+
+app_name = 'food'
+
+urlpatterns = [
+    # /food
+    url(r'^$', views.IndexView, name = 'index'), # default section
+    
+    # /food/1
+    url(r'^(?P<pk>[0-9]+)/$', views.DetailView, name = "detail"),
+
+    # /food/add
+    url(r'add/$', views.create_notes, name = "notes-add"),
+
+    # /food/food_id/delete_notes
+    url(r'^(?P<food_id>[0-9]+)/delete_notes/$', views.delete_notes, name='notes-delete'),
+
+    # /food/food_id/update_notes
+    url(r'^(?P<pk>[0-9]+)/modify_notes/$', views.modify_notes.as_view(), name='notes-modify'),
+
+    # /food/recipe
+    url(r'recipe/$', views.RecipeView, name='notes-recipe'),
+
+    # /food/recipe/ing
+    url(r'recipe/ing/$', views.RecipeIngView, name='notes-ing'),
+
+    # /food/recipe/tag/
+    url(r'recipe/tag/$', views.RecipeView, name='notes-tag'),
+
+    # /food/recipe/search_type/search_value
+    url(r'recipe/(?P<search_type>[a-zA-Z_]+)/(?P<search_value>.*)/$', views.RecipeSubView, name='notes-recipe'),
+
+]
+    
+

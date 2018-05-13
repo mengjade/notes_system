@@ -1,0 +1,63 @@
+{% extends 'food/base.html' %}
+{% block title %}{{search_value}}{% endblock %}
+
+{% block body %}
+    <style>
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+            color: white;
+            background-color: #FF847C;
+        }
+
+        .nav-pills > li.active > a:hover {
+            background-color: #FD6378;
+            color:white;
+        }
+
+    	.panel-body {
+    	    background:#FFFFFF;
+        }
+    </style>
+
+
+    <div class="col-sm-offset-1 col-sm-12">
+
+
+    
+		<div class="col-sm-7">
+			<div class="panel panel-default">
+			    <div class="panel-body">
+			        <table class="table">
+
+			            <tbody>
+			                {% for food in all_data %}
+							    <thead>
+							        <tr>
+										<td bgcolor="F2F2F2"> 
+											<a href='http://127.0.0.1:8000/food/{{food.pk}}'> 
+												<font color="#6a6b6d"><b>{{ food.cook_name }}</b></font>
+											</a>
+										</td>
+									</tr>
+							    </thead>
+						        <tr>
+							   		<td>
+							            <div style="white-space:pre"><font color="black">{{ food.info_text|linebreaks }}</font></div>
+							            {% if food.pic_file %}
+							                <img src="{{ food.pic_file.url }}" class="img-responsive">
+							            {% endif %}
+										</br></br>
+					            	</td>
+						        </tr>
+			                {% endfor %}
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+		</div>
+
+		<div class="col-sm-1">
+			<font size = "40" color="#6a6b6d" face = "hakuyoxingshu7000">{{search_value}}</font>		
+		</div>
+
+    </div>
+{% endblock %}

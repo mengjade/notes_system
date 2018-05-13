@@ -1,0 +1,110 @@
+import sqlite3
+import pandas as pd
+import numpy as np
+import math
+import xlwt
+con = sqlite3.connect('db.sqlite3')
+
+# query all data
+q = con.cursor()
+q.execute("SELECT note_type, sub_category, info_group, info_title, info_text, comment, id FROM notes_notes;")
+data = q.fetchall()
+
+# create df
+df = pd.DataFrame(columns=['note_type', 'sub_category', 'info_group', 'info_title', 'info_text', 'comment', 'id'])
+for row in data:
+    df.loc[len(df)] = list(row[:5]) + [row[-2]] + [row[-1]]
+    
+# for each note_type
+note_type_list = df.note_type.unique().tolist()
+for note_type in note_type_list:
+    
+    # create a new file
+    book = xlwt.Workbook()
+    
+    # -----------------set styles of the cells START-------------------------
+
+    # add your customized RGB colour
+    xlwt.add_palette_colour("my_gray", 0x21)
+    book.set_colour_RGB(0x21, 230, 230, 230)
+
+    xlwt.add_palette_colour("my_lblue", 0x22)
+    book.set_colour_RGB(0x22, 201, 212, 224)
+
+    xlwt.add_palette_colour("my_blue", 0x23)
+    book.set_colour_RGB(0x23, 47, 103, 163)
+
+    xlwt.add_palette_colour("my_bg", 0x24)
+    book.set_colour_RGB(0x24, 240, 240, 240)
+
+    # set borders
+    borders = xlwt.Borders()
+    borders.bottom= 1 
+    borders.left= 1 
+    borders.right= 1 
+    borders.top= 1 
+    borders.bottom_colour= 1 
+    borders.left_colour= 1 
+    borders.right_colour= 1 
+    borders.top_colour= 1 
+
+    # set font_color
+    fnt = xlwt.Font()                                                                             
+    fnt.colour_index = 1 
+
+    st_gray = xlwt.easyxf('pattern: pattern solid, fore_colour my_gray')
+    st_lblue = xlwt.easyxf('pattern: pattern solid, fore_colour my_lblue')
+    st_blue = xlwt.easyxf('pattern: pattern solid, fore_colour my_blue')
+    st_bg = xlwt.easyxf('pattern: pattern solid, fore_colour my_bg')
+
+    st_gray.borders = borders 
+    st_lblue.borders = borders 
+    st_blue.borders = borders 
+
+    st_blue.font = fnt
+    
+    # -----------------set styles of the cells END-------------------------    
+    
+    # for each sub_cat
+    sub_cat_list = df.sub_category.unique().tolist()
+    for sub_cat in sub_cat_list:
+        df_sub = df[(df.note_type == note_type) & (df.sub_category == sub_cat)]
+        df_sub = df_sub.drop("note_type", axis = 1)
+        df_sub = df_sub.drop("sub_category", axis = 1)
+        df_sub = df_sub.sort_values(by="info_group",ascending = True)
+        
+        sh = book.add_sheet(sub_cat)
+        current_group = ""
+        current_index = 0
+        for row in df_sub.values.tolist():
+
+            group = row[0]
+
+            # if new group
+            if group != current_group:
+                current_index += 1
+                current_group = group
+                sh.write(current_index, 0, current_group, st_blue)
+                # write_bg
+                sh.write(current_index - 1, 0, "", st_bg)
+                sh.write(current_index - 1, 1, "", st_bg)
+                sh.write(current_index - 1, 2, "", st_bg) 
+                sh.write(current_index + 1, 0, "", st_bg)
+            else:
+                # write_bg
+                sh.write(current_index, 0, "", st_bg)  
+                sh.write(current_index + 1, 0, "", st_bg)        
+
+            # write title
+            sh.write(current_index, 1, row[1], st_lblue)
+            sh.write(current_index, 3, row[-1])
+            sh.write(current_index, 2, "", st_bg)
+            # write content
+            sh.write(current_index+1, 1, row[2], st_gray)
+            # write comment
+            sh.write(current_index+1, 2, row[3], st_bg)
+            current_index += 2
+            
+    book.save(note_type+'.xlsx')
+
+con.close()

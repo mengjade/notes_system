@@ -1,0 +1,141 @@
+{% extends 'food/base.html' %}
+{% block title %}What to Cook{% endblock %}
+
+{% block body %}
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+
+
+    <style>
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+            color: white;
+            background-color: #FF847C;
+        }
+
+        .nav-pills > li.active > a:hover {
+            background-color: #FD6378;
+            color:white;
+        }
+
+    	.panel-body {
+    	    background:#ffffff;
+        }
+
+    </style>
+
+	<div class="col-sm-offset-1 col-sm-10">
+		</br>
+		<div class="panel panel-default">
+		    <div class="panel-body">
+		        <table class="table">
+
+				    <colgroup>
+					    <col span="1" style="width:35%;">
+					    <col span="1" style="width: 20%;">
+						<col span="1" style="width: 40%;">
+					</colgroup>
+
+					<thead>
+						<font size="10" color="#2E4053" face="Asana Math"> Aha!</font>
+					</thead>
+						
+					<tbody>
+						<td>
+							<div class="container col-md-11">
+								<font size="5" color="#FA8072" face="Asana Math"> Current Storage </font>        
+								<table class="table table-hover">
+									<tbody>
+			
+										{% for food in all_storage_data %}
+											<tr>
+											<td style="width:25%"> {{food.cat}} </td>
+
+                                            {% if food.expire_flag == '1' %}
+											    <td style="width:40%"> 
+                                                    {{food.food_type}} 
+                                                    <span class="glyphicon glyphicon-warning-sign" style="color:#FFA500"></span>  
+                                                </td>
+                                            {% elif food.expire_flag == '2' %}
+											    <td style="width:40%"> 
+                                                    {{food.food_type}} 
+                                                    <span class="glyphicon glyphicon-warning-sign" style="color:#FF0000"></span>  
+                                                </td>
+											{% else %}
+											    <td style="width:40%"> 
+                                                    {{food.food_type}} 
+                                                </td>
+											{% endif %}
+
+											{% if food.quant %}
+												<td style="width:10%"> {{food.quant}}</td>
+											{% else %}
+												<td style="width:10%">  </td>
+											{% endif %}
+
+											    <td style="width:25%"> {{food.unit}} </td>
+											</tr>
+										{% endfor %}
+								</tbody>
+							  </table>
+							</div>
+						</td>
+
+						<td>
+							<font size="5" color="#FA8072" face="Asana Math"> On List </font>   </br>
+							{% for food, source, ing in all_planner %}
+								{{food}} - {{source}} </br>
+								{% for ing_sm, s in ing%}
+									{{ing_sm}}
+									{% if s == "Y" %}
+										<span class="glyphicon glyphicon-ok-sign" style="color:#FA8072"></span> 
+									{% endif %}
+									</br>
+								{% endfor %}
+								</br>
+							{% endfor %}
+						</td>
+
+						<td>
+							<font size="5" color="#FA8072" face="Asana Math"> Recommendations </font>   
+							<font size="2" color="#FA8072" face="Asana Math"> Based on Storage </font>   </br>
+
+							{% for name, ing, pk in complete %}
+								<a href='http://127.0.0.1:8000/food/{{pk}}'><font color="#000000">{{ name }} </a> </br>
+								{% for ing_sm, s in ing%}
+									{{ing_sm}}
+									{% if s == "Y" %}
+										<span class="glyphicon glyphicon-ok-sign" style="color:#FA8072"></span> </br>
+									{% endif %}								
+								{% endfor %} </br>
+							{% endfor %}
+
+							{% for name, ing, pk in oneless %}
+								<a href='http://127.0.0.1:8000/food/{{pk}}'><font color="#000000">{{ name }} </a> </br>
+								{% for ing_sm, s in ing%}
+									{{ing_sm}}
+									{% if s == "Y" %}
+										<span class="glyphicon glyphicon-ok-sign" style="color:#FA8072"></span> 
+									{% else%}
+										<span class="glyphicon glyphicon-remove-sign" style="color:#A3DE83"></span> 
+									{% endif %}
+									</br>							
+								{% endfor %} 
+								</br>
+							{% endfor %}
+						</td>
+
+					</tbody>
+
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

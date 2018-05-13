@@ -1,0 +1,16 @@
+{% extends 'food/base.html' %}
+{% block title %}Search by Tags{% endblock %}
+
+{% block body %}
+	<div class="col-sm-offset-1 col-sm-10">
+		</br>
+		<div class="panel panel-default">
+		    <div class="panel-body">
+				<font size="10" color="#2E4053" face="Asana Math"> Tags</font>
+        		{% for tag, tag_en in all_cook_ing %}
+					</br><a href='http://127.0.0.1:8000/food/recipe/tag/{{tag_en}}'><font size="3" color="#2E4053"> {{ tag }} </font> </a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
