@@ -1,0 +1,39 @@
+{% extends 'notes/base.html' %}
+{% block title %}Add Notes{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="col-sm-offset-1 col-sm-10">
+        </br>
+        <div class="panel panel-primary">
+            <div class="panel-body">
+
+                <div style="margin-bottom:20px">
+                    <font class="font-xl font-cali font-thin color-main">Add Notes</font>
+                </div>
+
+                <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <!-- See more details in the form template -->
+                    {% if notes%}
+                    {% include 'notes/form_continue_notes.html' %}
+                    {% else %}
+                    {% include 'notes/form_create_notes.html' %}
+                    {% endif %}
+
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10" style="padding-left:15px">
+                            <input type="submit" class="btn btn-default createnotesbutton"
+                                href="{{CUR_URL}}notes/{{ form.pk.label }}" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

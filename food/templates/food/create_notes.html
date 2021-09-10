@@ -2,9 +2,23 @@
 {% block title %}Add Recipes{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="col-sm-12 col-md-7">
-        <div class="panel panel-default">
+    <style>
+        .panel {
+            border: 0;
+        }
+        .panel.panel-primary{
+            background-color: rgba(255, 255, 255, 0.90);
+            border-color: rgba(195, 198, 204);
+        }
+    </style>
+
+
+
+    <div class="col-sm-offset-1 col-sm-10">
+        </br>
+        </br>
+        </br>
+        <div class="panel panel-primary">
             <div class="panel-body">
 
                 <h3>Add Recipes</h3>
@@ -28,5 +42,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

@@ -7,15 +7,12 @@ app_name = 'food'
 urlpatterns = [
     # /food
     url(r'^$', views.IndexView, name = 'index'), # default section
-    
+
     # /food/1
     url(r'^(?P<pk>[0-9]+)/$', views.DetailView, name = "detail"),
 
     # /food/add
     url(r'add/$', views.create_notes, name = "notes-add"),
-
-    # /food/food_id/delete_notes
-    url(r'^(?P<food_id>[0-9]+)/delete_notes/$', views.delete_notes, name='notes-delete'),
 
     # /food/food_id/update_notes
     url(r'^(?P<pk>[0-9]+)/modify_notes/$', views.modify_notes.as_view(), name='notes-modify'),
@@ -38,6 +35,9 @@ urlpatterns = [
     # /food/sweet/recipe/
     url(r'sweet/me/$', views.SweetView, name='notes-sweet'),
 
+    # /food/update_storage
+    url(r'^update_storage/$', views.update_storage_view, name='update_storage_view'),
+
 ]
-    
+
 

@@ -19,11 +19,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views # . means current dir
 
+#handler404 = 'notes_system.views.view404'
+#handler403 = 'notes_system.views.view404'
+#handler500 = 'notes_system.views.view404'
+#handler400 = 'notes_system.views.view404'
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^notes/', include('notes.urls')), 
-    url(r'^food/', include('food.urls')), 
+    url(r'^notes/', include('notes.urls')),
+    url(r'^food/', include('food.urls')),
+    url(r'^redir/', include('redir.urls')),
     url(r'^$', views.IndexView, name = 'index'),
+    url(r'^about_me/$', views.AboutView, name = 'about')
 ]
 
 if settings.DEBUG:

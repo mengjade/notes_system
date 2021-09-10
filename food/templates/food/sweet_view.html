@@ -13,17 +13,30 @@
             color:white;
         }
 
-    	.panel-body {
-    	    background:#ffffff;
+        .panel {
+            border: 0;
         }
+
+        .panel.panel-primary{
+            background-color: rgba(255, 255, 255, 0.90);
+            border-color: rgba(195, 198, 204);
+            width: 100% !important;
+        }
+
+            .table {
+        max-width: none;
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
 
     </style>
 
 
     <div class="col-sm-offset-1 col-sm-10">
-    
-		<div class="col-sm-12">
-			<div class="panel panel-default">
+        </br>
+        </br>
+        </br>
+			<div class="panel panel-primary">
 			    <div class="panel-body">
 			        <table class="table">
 
@@ -36,12 +49,12 @@
 			                {% for note in all_data %}
 							    <thead>
 							        <tr>
-										<td bgcolor="F2F2F2"> 
-											<a href='http://127.0.0.1:8000/food/{{note.pk}}'> 
+										<td bgcolor="F2F2F2">
+											<a href='{{CUR_URL}}food/{{note.pk}}'>
 												<font color="#6a6b6d"><b>{{ note.cook_name }}</b></font>
 											</a>
 										</td>
-										<td bgcolor="F2F2F2"> 
+										<td bgcolor="F2F2F2">
 											<font color="#6a6b6d"><b></b></font>
 										</td>
 									</tr>
@@ -63,7 +76,6 @@
 			        </table>
 			    </div>
 			</div>
-		</div>
 
 
 

@@ -2,7 +2,12 @@
 {% block title %}{{search_value}}{% endblock %}
 
 {% block body %}
+
+  <head>
+
+
     <style>
+
         .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
             color: white;
             background-color: #FF847C;
@@ -13,18 +18,29 @@
             color:white;
         }
 
-    	.panel-body {
-    	    background:#FFFFFF;
+        .panel {
+            border: 0;
         }
-    </style>
 
+        .panel.panel-primary{
+            background-color: rgba(255, 255, 255, 0.90);
+            border-color: rgba(195, 198, 204);
+        }
+
+hhh { writing-mode: tb-rl; }
+
+
+    </style>
+  </head>
 
     <div class="col-sm-offset-1 col-sm-12">
 
+        </br>
+        </br>
+        </br>
 
-    
 		<div class="col-sm-7">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 			    <div class="panel-body">
 			        <table class="table">
 
@@ -32,8 +48,8 @@
 			                {% for food in all_data %}
 							    <thead>
 							        <tr>
-										<td bgcolor="F2F2F2"> 
-											<a href='http://127.0.0.1:8000/food/{{food.pk}}'> 
+										<td bgcolor="F2F2F2">
+											<a href='{{CUR_URL}}food/{{food.pk}}'>
 												<font color="#6a6b6d"><b>{{ food.cook_name }}</b></font>
 											</a>
 										</td>
@@ -60,9 +76,11 @@
 			</div>
 		</div>
 
-		<div class="col-sm-1">
-			<font size = "40" color="#6a6b6d" face = "hakuyoxingshu7000">{{search_value}}</font>		
+		<div class="col-sm-0.5">
+
+			<font size = "90" color="#6a6b6d" face="FANGSONG"><hhh>{{search_value}}</hhh></font>
 		</div>
 
     </div>
+
 {% endblock %}

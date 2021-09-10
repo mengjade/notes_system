@@ -1,22 +1,43 @@
 {% extends 'food/base.html' %}
 {% block title %}Search by Tags{% endblock %}
 
+
+
 {% block body %}
+
+    <style>
+
+        .panel {
+            border: 0;
+        }
+        .panel.panel-primary{
+            background-color: rgba(255, 255, 255, 0.90);
+            border-color: rgba(195, 198, 204);
+        }
+    </style>
+
 	<div class="col-sm-offset-1 col-sm-10">
-		</br>
-		<div class="panel panel-default">
+        </br>
+        </br>
+        </br>
+		<div class="panel panel-primary">
 		    <div class="panel-body">
 		        <table class="table">
 					<thead>
 						<font size="10" color="#2E4053" face="Asana Math"> Tags</font>
 					</thead>
-					
+
 					<tbody>
 						<td>
 							{% for tag, tag_en, c in all_tag %}
 								</br>
-								<span class="glyphicon glyphicon-book" style="color:#FA8072"></span> {{c}}
-								<a href='http://127.0.0.1:8000/food/recipe/tag/{{tag_en}}'><font size="3" color="#2E4053"> {{ tag }} </font> </a>
+								{% if c|length == 2 %}
+                                    <span class="glyphicon glyphicon-book" style="color:#FA8072"></span>  {{ c }}
+                                {% else %}
+                                    <span class="glyphicon glyphicon-book" style="color:#FA8072"></span>  {{ c }} &nbsp;
+                                {% endif %}
+								<a href='{{CUR_URL}}food/recipe/tag/{{tag_en}}'><font size="3" color="#2E4053"> {{ tag }} </font> </a>
+                                </span>
 							{% endfor %}
 						</td>
 					</tbody>

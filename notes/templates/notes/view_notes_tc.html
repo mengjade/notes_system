@@ -1,0 +1,29 @@
+{% extends 'notes/base.html' %}
+{% block title %}{{note_type_new}}{% endblock %}
+
+{% block body %}
+
+<div class="col-sm-offset-1 col-sm-10">
+	</br>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<font size="10" class="font-huge font-as color-main"> {{note_type_new}} </font>
+			<font size="5" class="font-xl font-as color-main-light"> {{sub_category}} </font>
+			{% for group in all_group %}
+			</br><a href='{{CUR_URL}}notes/{{note_type}}/{{sub_category}}/{{group}}'>
+				<font size="4" class="font-large color-main font-cali"> {{ group }} </font>
+			</a>
+			{% for note in all_data %}
+			{% if note.info_group == group %}
+			</br><a href='{{CUR_URL}}notes/{{note.id}}/'>
+				<font size="3" class="font-mid color-main-light font-cali"> --{{ note.info_title }} </font>
+			</a>
+			{% endif %}
+			{% endfor %}
+			</br>
+			{% endfor %}
+
+		</div>
+	</div>
+</div>
+{% endblock %}

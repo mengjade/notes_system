@@ -21,6 +21,8 @@
 
     <div class="column">
 
+
+
 		{%if show_tc == 1%}
 			<a href='http://127.0.0.1:8000/notes/{{note_type}}/{{sub_category}}/tc'><font size="5" color="#FFFFFF" face="Asana Math"> Table of Contents </font></a>
 		{% endif %}
@@ -42,7 +44,7 @@
 		    </div>
         {% endif%}
 
-        
+
         {% for group in all_group %}
 			<div class="col-sm-12">
 				<div class="panel panel-default">

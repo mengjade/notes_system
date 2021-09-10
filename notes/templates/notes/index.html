@@ -1,27 +1,191 @@
-{% extends 'notes/base.html' %} 
-{% load staticfiles %}
+{% extends 'notes/base.html' %}
+{% load static %}
 {% block body %}
-	<div class="col-sm-offset-1 col-sm-10">
 
-		</br>
-		<div class="panel panel-default">
-		    <div class="panel-body">
-				<font size="10" color="#2E4053" face="Asana Math"> Hello</font>
-				<img src="{%  static 'leaf.png' %}" width="400"></br>
-				
+<script src="{% static 'notes/d3.v3.min.js' %}"></script>
+<script src="{% static 'notes/d3.layout.cloud.js' %}"></script>
 
-				{% for element in object_list %}
-				   <span class="glyphicon glyphicon-play" style="color:#FA8072"></span> 
-				   {% if element == 'SAS' %}
-				       <a href='http://127.0.0.1:8000/notes/{{element}}/'> <font size="4" face="Asana Math" color="#2E4053"> {{element}}</font>  </a> </br>
-				   {% elif element == 'SQL' %}
-				       <a href='http://127.0.0.1:8000/notes/{{element}}/'> <font size="4" face="Asana Math" color="#2E4053"> {{element}}</font>  </a> </br>
-				   {% else %}
-				       <a href='http://127.0.0.1:8000/notes/{{element.lower}}/'> <font size="4" face="Asana Math" color="#2E4053"> {{element}}</font>  </a> </br>
-				   {% endif %}
-				{% endfor %}
-			</div>
-		</div>
+<style>
 
-	</div>
+    .content {
+        color: rgba(0,0,0,0);
+    }
+
+    .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        max-width: 50%;
+        max-height: 50%;
+        background-color:red;
+        overflow: auto;
+        position: absolute;
+    }
+
+    body, html {height: 100%}
+
+</style>
+
+<div class="content" id="mybgimg">
+    <div id="vis" > </div>
+</div>
+
+<!--load variable from python-->
+{% autoescape off %}
+    <script type="text/javascript">
+        var tags = {{word_list}};
+    </script>
+{% endautoescape %}
+
+
+<script>
+
+    // get cookie value
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    var is_dark = getCookie("is_dark");
+
+    if (is_dark == "False"){
+        document.getElementById("mybgimg").style.background = "url({% static 'notes/images/Background2.jpg' %})";
+        document.getElementById("mybgimg").style.minHeight  = "100%";
+        document.getElementById("mybgimg").style.backgroundSize = "cover";
+        document.getElementById('mybgimg').style.backgroundPosition = "center";
+
+        var color = ['#F5F5F5',  '#F5F5F5',  '#F5F5F5', '#F5F5F5', '#FFFFFF'];
+    } else {
+        document.getElementById("mybgimg").style.background = "url({% static 'notes/images/dark_index.jpg' %})";
+        document.getElementById("mybgimg").style.minHeight  = "100%";
+        document.getElementById("mybgimg").style.backgroundSize = "cover";
+        document.getElementById('mybgimg').style.backgroundPosition = "center";
+
+        var color = ['#A8A8A8',  '#585858',  '#707070', '#F5F5F5', '#FFFFFF'];
+    }
+
+    // load color variable from local storage
+    // var color = localStorage.getItem("color");
+    // color = (color) ? JSON.parse(color) : [];
+
+    var w = window.innerWidth,
+        h = window.innerHeight;
+
+    var max, fontSize;
+
+    var layout = d3.layout.cloud()
+            .timeInterval(10)
+            .size([w, h])
+            .padding(2)
+            .rotate(function(d) { return 0; })
+              .fontSize(function(d) {
+                return d.value
+              })
+            .text(function(d) {
+                return d.key;
+            })
+            .spiral("archimedean")
+            .on("end", draw);
+
+    var svg = d3.select("#vis").append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+    var vis = svg.append("g").attr("transform", "translate(" + [w >> 1, h >> 1] + ")");
+
+    var size  = ["13px","15px","20px","25px","30px"];
+
+    window.onresize = function(event) {
+        update();
+    };
+
+    function draw(data, bounds) {
+
+        var w = window.innerWidth,
+            h = window.innerHeight/1.5;
+
+        svg.attr("width", w).attr("height", h);
+
+        scale = bounds ? Math.min(
+                w / Math.abs(bounds[1].x - w / 2),
+                w / Math.abs(bounds[0].x - w / 2),
+                h / Math.abs(bounds[1].y - h / 2),
+                h / Math.abs(bounds[0].y - h / 2)) / 2 : 1;
+
+        var text = vis.selectAll("text")
+                .data(data, function(d) {
+                    return d.text;
+                });
+
+
+        var xScale = d3.scale.linear()
+           .domain([0, d3.max(tags, function(d) {
+              return d.value;
+            })
+           ])
+           .range([10,100]);
+
+        text.transition()
+                .duration(1000)
+                .attr("text-anchor", "middle")
+                .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(0)";
+                })
+                .style("font-size", function(d) {
+                    return d.size + "px";
+                });
+
+        text.enter().append("text")
+                .attr("text-anchor", "middle")
+                .attr("transform", function(d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(0)";
+                })
+                .attr('cursor', 'pointer')
+                .style("font-size", function(d) { return xScale(d.value) + "px"; })
+                .on("click", function(d) { window.location.href = d.href; })
+                .transition()
+                .duration(1000)
+                .style("opacity", 1);
+
+        text.style("font-family", function(d) {
+                                                    return d.font;
+                                                })
+                .style("fill", function(d, i) { return color[Math.floor(Math.random() * 5)]; })
+                .text(function(d) {
+                    return d.text;
+                });
+
+        vis.on("click", function(d) {
+                window.location.href = d.href;
+            });
+
+        vis.transition().attr("transform", "translate(" + [w >> 1, h >> 1] + ")scale(" + scale + ")");
+
+    }
+
+    function update() {
+        layout.font('Nixie One').spiral('archimedean');
+        fontSize = d3.scale['sqrt']().range([10, 100]);
+        if (tags.length){
+            fontSize.domain([+tags[tags.length - 1].value || 1, +tags[0].value]);
+        }
+        layout.stop().words(tags).start();
+    }
+
+    update();
+</script>
+
+
 {% endblock %}

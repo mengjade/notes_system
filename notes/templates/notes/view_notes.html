@@ -1,0 +1,175 @@
+{% extends 'notes/base.html' %}
+{% block title %}{{note_type_new}}{% endblock %}
+
+{% block body %}
+
+{% load static %}
+
+<script type="text/javascript" src="{% static '/notes/prism.js' %}"></script>
+<style>
+.offset:before {
+  display: block;
+  content: " ";
+  height: 60px;      /* Give height of your fixed element */
+  margin-top: -60px; /* Give negative margin of your fixed element */
+  visibility: hidden;
+}
+
+a:focus, a:active {
+    outline: 0 !important;
+    -moz-outline-style: none !important;
+    border: 0 !important;
+}
+
+h1:focus, h1:active {
+    outline: 0 !important;
+    -moz-outline-style: none !important;
+    border: 0 !important;
+}
+
+h2:focus, h2:active {
+    outline: 0 !important;
+    -moz-outline-style: none !important;
+    border: 0 !important;
+}
+</style>
+<div data-spy="scroll" data-target="#toc" style="display: flex;">
+	<nav id="toc" class="toc js-toc tocbar navbar navbar-expand-md navbar-dark
+		hidden-xs
+		bg-primary fixed-left"></nav>
+
+	<div>
+		<div class="panel-body js-toc-content infinite-container">
+
+			{%if show_labels%}
+			<div class="col-sm-8 col-md-9" style="z-index: 1">
+				<font size="10" color="#FFFFFF" face="Asana Math"> {{note_type_new}} </font>
+				<font size="5" color="#E2DCD5" face="Asana Math"> </font>
+				-
+				<font size="5" color="#E2DCD5" face="Asana Math"> {{info_group}} </font>
+			</div>
+			{% endif%}
+
+			{%if show_tc%}
+			<div class="col-sm-12" style="z-index: 1">
+				<font class="font-large color-main">{{sub_category}}</font>
+				<a href='{{CUR_URL}}notes/{{note_type}}/{{sub_category}}/tc'>
+					<font class="font-mid color-main"> Table of Contents
+					</font>
+				</a>
+			</div>
+			{% endif %}
+
+			<div class="col-sm-12" style="margin-bottom:20px;z-index: 1;">
+				<ul class="nav nav-pills">
+					{% for cat in all_sub_cat %}
+					<li role="presentation" class="active" style="margin-bottom:
+						10px;margin-right: 5px"><a style="font-size:12px;padding:5px"
+							href='{{CUR_URL}}notes/{{note_type}}/{{cat}}'>{{cat}}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<br/><br/>
+
+			{% for group in all_group %}
+			<div class="infinite-item">
+				<h1 id={{group|cut:' '}} class="font-large color-main offset" style="padding-left:18px;position:relative;">
+					<b>{{ group }}</b>
+				</h1>
+
+				{% for notes in all_data %}
+				{% if notes.info_group == group %}
+				<a href='{{CUR_URL}}notes/{{notes.pk}}'>
+					<h2 id={{ group|add:notes.info_title|cut:' '}} class="font-mid color-main offset"
+						style="padding-left:18px; margin-bottom:0">
+						{{ notes.info_title }}</h2>
+				</a>
+
+				<div style="padding-left:18px">
+					<table class="notes-table">
+						<colgroup>
+							<col span="1" style="width: 70%;max-width: 70%;min-width: 70%">
+							<col span="1" style="width: 25%;max-width: 25%;min-width: 25%">
+						</colgroup>
+						<tbody>
+							<tr style="border-bottom-width:1px" class="notes-light">
+								<td class="notes-content">
+									<div>
+										{% if notes.lang == 'N' %}
+										<pre
+											class={{class_input}}><code class={{class_input}}>{{notes.info_text}}</code></pre>
+										{% else %}
+										<pre
+											class={{" language-" |add:notes.lang}}><code class={{"language-"|add:notes.lang}} >{{notes.info_text}}</code></pre>
+										{% endif %}
+
+										{% if notes.pic_file %}
+										<img src="{{ notes.pic_file.url }}">
+										{% endif %}
+									</div>
+								</td>
+								<td class="notes-comment">
+									{% if notes.comment %}
+									<font class="font-small color-main font-con">
+										{{ notes.comment|linebreaks }}
+									</font>
+									{% endif %}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				{% endif %}
+				{% endfor %}
+				<br /><br />
+			</div>
+
+			{% endfor %}
+
+			{% if has_next_page %}
+			<a class="infinite-more-link" href="{{CUR_URL}}{{next_page_url}}">More</a>
+			{% endif %}
+
+			<div class="loading" style="display: none;">
+				Loading...
+			</div>
+
+		</div>
+		<div style="color:white; margin-left:300px;text-align:center" id="eon"></div>
+	</div>
+</div>
+{% load static %}
+<script type="text/javascript" src="{% static '/notes/prism.js' %}"></script>
+<script>
+	var pageNum = {{ page_num }}
+	console.log('loaded page ' + pageNum + ' out of ' + {{ max_page }})
+
+	var infinite = new Waypoint.Infinite({
+		element: $('.infinite-container')[0],
+		offset: function () {
+			return (this.context.innerHeight() - this.adapter.outerHeight())*0.9
+		},
+		onBeforePageLoad: function () {
+			$('.loading').show();
+		},
+		onAfterPageLoad: function ($items) {
+			$('.loading').hide();
+			pageNum += 1
+			console.log('loaded page ' + pageNum + ' out of ' + {{ max_page }})
+
+			if (pageNum == {{ max_page }}) {
+				console.log('END OF NOTES')
+				var div = document.getElementById('eon');
+				div.innerHTML += 'End of Notes';
+			}
+			tocbot.refresh();
+			Prism.highlightAll();
+		}
+	});
+
+	function myFunction(next_page_url) {
+		console.log(next_page_url)
+	}
+</script>
+{% endblock %}

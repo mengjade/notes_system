@@ -1,33 +1,83 @@
-{% extends 'notes_system/base.html' %} 
-{% load staticfiles %}
+{% extends 'notes_system/base.html' %}
+{% load static %}
 {% block body %}
 
-    <style>
-	.panel{
-		border: none;
-	}
+<link href="https://fonts.googleapis.com/css?family=Cormorant:300" rel="stylesheet">
 
-	.panel{
-	background: none;
-	}
 
-	.content {
-	  position: absolute;
-	  top: 50%;
-	  left:50%;
-	  transform: translate(-50%,-50%);
-	  }
 
-    </style>
+<style>
 
-	<div class = "content" >
+    h1 a {
+      color: white;
+      font-size: 2em;
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+    }
 
-		<font size="20" color="#FFFFFF" face="AdineKirnberg"> Hello! </font>
-		<font size="6" color="#FFFFFF" face="Sawasdee"> What are you looking for?</font></br>
+    h1 a:hover {
+      color: white;
+      font-size: 2em;
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+    }
 
-		<a href='http://127.0.0.1:8000/notes/'> <font size="3" face="Sawasdee" color="#FFFFFF"> > Knowledge </font>  </a> 
-		<a href='http://127.0.0.1:8000/food/'> <font size="3" face="Sawasdee" color="#FFFFFF"> > Food </font>  </a>
+    body, html {height: 100%}
 
-	</div>
+    .bgimg {
+        background: url({% static 'notes/images/index_tor.jpg' %});
+        min-height: 100%;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .middle{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);
+    }
+
+    .animate-top{
+        position:relative;
+        animation:animatetop 0.4s}@keyframes animatetop{from{top:-300px;opacity:0} to{top:0;opacity:1}
+
+    }
+
+    .border-grey{
+        border-color:white!important
+
+    }
+
+</style>
+
+
+
+<div class="bgimg">
+  <div class="middle">
+
+    <h1 align="center" class="animate-top">
+        <font style="font-size:64px; color: white">Hello World</font>
+    </h1>
+    <hr class="border-grey" style="margin:auto;width:55%">
+
+    <div align = "center">
+        <a href="notes" class="effect-underline"> <font style="font-size:32px; color: white"> Code</font></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="food" class="effect-underline"> <font style="font-size:32px; color: white">Food</font></a>
+    </div>
+
+
+  </div>
+  <a href="about_me"><div style="position: absolute;top: 8px;right: 16px;color:white;font-family:Consolas">About me</div></a>
+</div>
+
+
+
+
+
+    </section>
 
 {% endblock %}

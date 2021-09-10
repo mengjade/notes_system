@@ -34,12 +34,17 @@
             <div class="col-sm-10">
                 <textarea class="form-control" rows="3" name="comment"></textarea>
             </div>
-        {%else%}
+        {%elif field.label == "Pic file"%}
             <label class="control-label col-sm-2">Image</label>
 	        <div class="col-sm-10">
 		        <input type="file" name="pic_file">
 	        </div>
+        {%else%}
+            <label class="control-label col-sm-2">Put</label>
+	        <div class="col-sm-10">
+				<textarea class="form-control" rows="1" name="hhh"></textarea>
+	        </div>
         {%endif%}
-        
+
     </div>
 {% endfor%}

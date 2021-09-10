@@ -1,0 +1,82 @@
+{% extends 'redir/base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+<title>{% block title %}Teaching{% endblock %}</title>
+
+    <style>
+	.panel{
+		border: none;
+	}
+
+	.panel{
+	background: none;
+	}
+
+	.content {
+	  position: absolute;
+	  top: 50%;
+	  left:50%;
+	  transform: translate(-50%,-50%);
+	  }
+
+    .panel.panel-primary{
+        background-color: rgba(245,245,245,0);
+        border: 0;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    hr{
+        padding: 0px;
+        margin: 0px;
+    }
+
+    </style>
+
+    <a href='{{CUR_URL}}redir/'><font face="Sawasdee" size="2" style="color:white">&nbsp;&nbsp;&nbsp;&nbsp;> Back to Home Page </font></br></a>
+
+	<div class = "content" >
+
+
+        <font face="Sawasdee" size="10" style="color:#FA5B75"><b> Teaching </b></font>
+        <hr style="border-top: 1px dashed gray"/></br>
+        <font face="Sawasdee" size="3" style="color:white">
+            This part is about our teaching interest.</br>
+
+            We have been studying at UTSC for 5 years and have been conducting tutorials for 4 years.
+            Peiying also taught first and second year statistics classes at University of Waterloo.
+            </br></br>
+
+            <font face="Sawasdee" size="5" style="color:white"><b> Peiying </b></font> enjoys teaching quantitative finance courses as well as computer science algorithms.
+
+            Peiying has TAed for some high level Computer Science and Statistics courses.</br>
+
+            <font face="Sawasdee" size="5" style="color:white"><b> Huiyi </b></font> enjoys teaching probability, statistics and linear algebra.
+
+            Huiyi has TAed for some intermediate level Mathematics and Statistics courses. </br></br>
+
+            Here is a list of courses that we have taught (mixture of us):</br>
+
+            MATA23, MATA30, MATA31,MATA32, MATA33, MATA36, MATA37, MATB24, MATB41;</br>
+            STAB22, STAB52, STAB57, ACTB40, STAB41, STAC67, STAC70;</br>
+            CSCA08, CSCA67, CSCB36, CSCB63;</br>
+            MGTA03, MGTA04, MGAB01, MGAB02, MGAB03, MGEB11, MGEB12, MGEC11.</br>
+            </br>
+            Except for doing Teaching Assistent jobs, we also enjoy: </br>
+            <ul style="list-style-type:none">
+              <li>- Running R-programming Workshops </li>
+              <li>- Running Q&A sessions on applying for grad school and course/program selection </li>
+              <li>- Tutoring and helping students with needs in job searching. </li>
+            </ul>
+
+            </br></br>
+
+        </font>
+        <hr style="border-top: 1px dashed gray"/>
+
+	</div>
+
+{% endblock %}

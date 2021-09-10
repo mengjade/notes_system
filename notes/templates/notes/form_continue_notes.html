@@ -1,0 +1,70 @@
+{% for field in form %}
+<div class="form-group">
+
+    {%if field.label == "Note type"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Note Type</font>
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" type="text" name="note_type" style="width:40%" value={{notes.note_type}}>
+    </div>
+    {%elif field.label == "Sub category"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Tab</font>
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" type="text" name="sub_category" style="width:40%" value={{notes.sub_category}}>
+    </div>
+    {%elif field.label == "Info group"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Group</font>
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" type="text" name="info_group" style="width:100%" value={{notes.info_group}}>
+    </div>
+    {%elif field.label == "Info title"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Title</font>
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" type="text" name="info_title" style="width:100%">
+    </div>
+    {%elif field.label == "Info text"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Content</font>
+    </label>
+    <div class="col-sm-10">
+        <textarea class="form-control" rows="10" name="info_text"></textarea>
+    </div>
+    {%elif field.label == "Pic file"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Image</font>
+    </label>
+    <div class="col-sm-10 font-large color-main font-cali font-thin">
+        <input type="file" name="pic_file">
+    </div>
+    {%elif field.label == "Comment"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Comment</font>
+    </label>
+    <div class="col-sm-10">
+        <textarea class="form-control" rows="3" name="comment"></textarea>
+    </div>
+    {%elif field.label == "Lang"%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Language</font>
+    </label>
+    <div class="col-sm-10">
+        <input class="form-control" type="text" name="lang" style="width:100%" value={{notes.lang}}>
+    </div>
+    {%else%}
+    <label class="control-label col-sm-2 notes-form-label">
+        <font class="font-large color-main font-cali font-thin">Put</font>
+    </label>
+    <div class="col-sm-10">
+        <textarea class="form-control" rows="1" name="hhh"></textarea>
+    </div>
+    {%endif%}
+
+</div>
+{% endfor%}

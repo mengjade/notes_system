@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+    <head>
+
+        {% load static %}
+        {% load staticfiles %}
+
+        <meta charset="UTF-8">
+
+        <!--Set Page Title-->
+        <title>Hey</title>
+
+        <!--Load pkgs-->
+        <link rel="shortcut icon" type="image/png" href="{%  static 'web.ico' %}"/>
+        <link rel="stylesheet" href="/static/notes/bootstrap.min.css">
+        <script src="/static/notes/jquery.min.js"></script>
+
+        <!--Load Prism-->
+        <script type="text/javascript" src="/static/notes/prism.js"></script>
+
+
+        <style>
+
+            .content {
+                max-width: 600px;
+                margin: auto;
+            }
+
+            div.polaroid {
+              width: 80%;
+              background-color: white;
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+              margin-bottom: 25px;
+            }
+
+            div.container {
+              text-align: center;
+              padding: 10px 20px;
+            }
+
+
+.shadow1 {
+   -moz-box-shadow:    inset 0 0 100px #000000;
+   -webkit-box-shadow: inset 0 0 100px #000000;
+   box-shadow:         inset 0 0 100px #000000;
+}
+
+        </style>
+
+    </head>
+
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+
+    <div class="polaroid content">
+
+      <img src="{{ notes.pic_file.url }}" class="img-responsive shadow1" style="width:100% ">
+
+
+      <div class="container content">
+        <p></br></br>{{notes.info_text}}{{text}}</br></br></p>
+      </div>
+    </div>
+
+
+
+    <script>
+        document.body.style.backgroundImage = "url({% static 'notes/images/ErrorWeb.jpg' %})";
+        document.body.style.backgroundSize = "100%";
+    </script>
+
+</html>

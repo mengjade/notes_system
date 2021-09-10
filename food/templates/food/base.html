@@ -3,6 +3,7 @@
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!--Set Page Title-->
         <title>{% block title %}Peiying's Home Page{% endblock %}</title>
@@ -19,23 +20,50 @@
 	<style>
 		html {
 		  background: url({% static 'food/images/food1.jpg' %});
-		  background-size: 1350px 876px, cover;
+		  background-size: 100%
 		  /* first image is 300x100, second image covers the whole area */
 		}
+
+
+    .navbar {
+        position: fixed; /* Set the navbar to fixed position */
+        top: 0;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 50px;
+    }
+
+    /* color of the nav bar */
+    .navbar-custom {
+        background-color: rgba(255,255,255,0.8) !important;
+        position: fixed;
+        top: 0;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 100px;
+        color: white;
+    }
+
+    .navbar-nav li a:hover {
+      color: #fff !important;
+      background-color:rgba(255,255,255,0.4) !important;
+      background-image: none !important;
+    }
+
 	</style>
 
 
-    <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
+    <body onload="load_dark()">
+        <nav class="navbar navbar-fixed-top navbar-custom">
+            <div class="container-fluid topbar">
 
                 <!--Add the cute flower icon-->
-				<a class="navbar-brand"><img src="{%  static 'flower1.png' %}" width="25"/></a>
+				<a class="navbar-brand" href="{% url 'notes:index' %}"><img src="{%  static 'flower1.png' %}" width="25"/></a>
 
                 <!-- Header -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar"></button>
-                    <a class="navbar-brand" href="{% url 'food:index' %}">Home Page</a>
+                    <a class="navbar-brand" href="{% url 'food:index' %}"><font style="color:#FF847C">Home Page</font></a>
                 </div>
 
                 <!-- Items -->
@@ -44,27 +72,35 @@
                     <!-- Add Button -->
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="http://127.0.0.1:8000/food/add/">
-                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span>Add
+                            <a href="{{CUR_URL}}food/add/">
+                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span> <font style="color:#FF847C">Add</font>
                             </a>
                         </li>
-                    </ul>		
+                    </ul>
 
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="http://127.0.0.1:8000/food/recipe/ing/">
-                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span>By Ingredients
+                            <a href="{{CUR_URL}}food/recipe/ing/">
+                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span><font style="color:#FF847C">By Ingredients</font>
                             </a>
                         </li>
-                    </ul>		
+                    </ul>
 
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="http://127.0.0.1:8000/food/recipe/tag/">
-                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span>By Tag
+                            <a href="{{CUR_URL}}food/recipe/tag/">
+                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span><font style="color:#FF847C">By Tags</font>
                             </a>
                         </li>
-                    </ul>		
+                    </ul>
+
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="{{CUR_URL}}food/update_storage/">
+                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span><font style="color:#FF847C">Update Stroage</font>
+                            </a>
+                        </li>
+                    </ul>
 
                 </div>
             </div>
@@ -73,3 +109,14 @@
         {% endblock %}
     </body>
 </html>
+
+
+<script>
+    function load_dark() {
+
+        document.body.style.backgroundImage = "url({% static 'food/images/food1.jpg' %})";
+
+        document.body.style.backgroundSize = "100%";
+
+    }
+</script>

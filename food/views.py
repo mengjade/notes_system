@@ -1,12 +1,23 @@
 from django.shortcuts import render
-from .forms import FoodForm
+from .forms import FoodForm, ExcelForm
 from django.views.generic.edit import UpdateView
 from django.template import loader
 from .models import Food, Storage, Planner
 from django.http import HttpResponse
 import urllib
-import numpy as np
 
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+import os
+from subprocess import call
+import pandas as pd
+
+
+# get the current host url
+from django.conf import settings
+CUR_PATH = getattr(settings, "CUR_PATH", None)
 
 
 # Create your views here.
@@ -14,13 +25,13 @@ import numpy as np
 def IndexView(request):
     return render(request, 'food/index.html')
 
-
 def create_notes(request):
     form = FoodForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        food = form.save(commit=False)
-        food.save()
-        return render(request, 'food/detail.html', {'food': food})
+        if form["hhh"].value() == "1018":
+            food = form.save(commit=False)
+            food.save()
+            return render(request, 'food/detail.html', {'food': food})
     context = {
         "form": form,
     }
@@ -28,13 +39,15 @@ def create_notes(request):
 
 class modify_notes(UpdateView):
     model = Food
-    fields = ['cook_name', 'cook_cat', 'tag' ,'cook_ing', 'info_text',  'pic_file', 'comment' ]
-    template_name_suffix = '_update_form'
+    fields = ['cook_name', 'cook_cat', 'tag' ,'cook_ing', 'info_text',  'pic_file', 'comment', 'hhh']
 
-def delete_notes(request, food_id):
-    n = Food.objects.get(pk=food_id)
-    n.delete()
-    return render(request, 'food/index.html')
+    def form_valid(self, form):
+     if form["hhh"].value() != "1018":
+         return self.render_to_response(self.get_context_data(form=form))
+     else:
+         return super(modify_notes, self).form_valid(form)
+
+    template_name_suffix = '_update_form'
 
 def DetailView(request, pk):
     template= loader.get_template("food/detail.html")
@@ -94,11 +107,13 @@ def RecipeIngView(request):
 
     for e in all_cook_ing_other_temp:
         c = all_cook_ing_other_temp.count(e)
+        c = str(c)
         if (e, urllib.parse.quote(e), c) not in all_cook_ing:
             all_cook_ing.append((e, urllib.parse.quote(e), c) )
 
     for e in all_cook_ing_meat_temp:
         c = all_cook_ing_meat_temp.count(e)
+        c = str(c)
         if (e, urllib.parse.quote(e), c) not in all_cook_ing_meat:
             all_cook_ing_meat.append((e, urllib.parse.quote(e), c) )
 
@@ -129,8 +144,8 @@ def RecipeTagView(request):
     all_tag_temp_temp.sort(key=len)
 
     all_tag = []
-    for e in all_tag_temp_temp:      
-        c = all_tag_temp_temp.count(e)
+    for e in all_tag_temp_temp:
+        c = str(all_tag_temp_temp.count(e))
         if (e,urllib.parse.quote(e),c) not in all_tag:
             all_tag.append((e,urllib.parse.quote(e),c))
 
@@ -146,13 +161,13 @@ def RecipeSubView(request, search_type, search_value):
     search_value = urllib.parse.unquote(search_value)
 
     if search_type == "cook_cat":
-        all_data = Food.objects.filter(cook_cat = search_value) 
+        all_data = Food.objects.filter(cook_cat = search_value)
 
     if search_type == "cook_ing":
-        all_data = Food.objects.filter(cook_ing__icontains = search_value) 	
+        all_data = Food.objects.filter(cook_ing__icontains = search_value)
 
     if search_type == "tag":
-        all_data = Food.objects.filter(tag__icontains = search_value) 	
+        all_data = Food.objects.filter(tag__icontains = search_value)
 
     template = loader.get_template('food/recipe_sub_view.html')
     context = {
@@ -163,7 +178,7 @@ def RecipeSubView(request, search_type, search_value):
 
 def SweetView(request):
 
-    all_data = Food.objects.filter(cook_cat = "甜品") 
+    all_data = Food.objects.filter(cook_cat = "甜品")
 
     template = loader.get_template('food/sweet_view.html')
     context = {
@@ -173,23 +188,42 @@ def SweetView(request):
 
 def WTCView(request):
 
-    all_storage_data = Storage.objects.all()
+    # get food_storage table
+    df = pd.read_excel(open(CUR_PATH + "media/Tracker_v2.0.xlsx" ,'rb'), parse_cols = "A:E",
+           sheetname='Food_Track',names=['cat','food_type','quant','unit','inputdate'],header=None)
+    df = df[1:]
+    df = df.dropna(how="all")
 
-    all_storage_type = list(Storage.objects.all().values_list('food_type').distinct())
-    all_storage_type = [ e[0] for e in all_storage_type]
-    all_p = list(Planner.objects.all())
-    all_planner = []
-    for e in all_p:
-        l = []
-        if e.ing is not None:
-            a = (e.ing).split("，")
-            for food_type in a:
-                if food_type in all_storage_type:
-                    l.append((food_type, "Y"))
-                else:
-                    l.append((food_type, "N"))
-            all_planner.append([e.name,e.source,l])
-	
+    df1 = pd.read_excel(open(CUR_PATH + "media/Tracker_v2.0.xlsx" ,'rb'), parse_cols = "G:H",
+           sheetname='Food_Track',names=['cat','food_type'],header=None)
+    df1 = df1[1:]
+    df1 = df1.dropna()
+
+    df = pd.concat([df,df1])
+    df = df.fillna(" ")
+    df = df[['cat','food_type','quant','unit']]
+    all_storage_type = df.food_type.tolist()
+    storagetable = df.to_html(index = False,header = False)
+
+    # get planner table
+    df2 = pd.read_excel(open(CUR_PATH + "media/Tracker_v2.0.xlsx" ,'rb'), parse_cols = "L:N",sheetname='Food_Track',names=['name','source','ing'],header=None)
+    df2 = df2.dropna()
+    df2 = df2.values.tolist()
+    for i,r in enumerate(df2):
+        ing_l = r[2].split(",")
+        to_add = []
+        for j,ing in enumerate(ing_l):
+            if ing in all_storage_type:
+                s = "Y"
+            else:
+                s = "N"
+            to_add.append([ing, s])
+        df2[i][2] = to_add.copy()
+
+    # get to-get list
+    df3 = pd.read_excel(open(CUR_PATH + "media/Tracker_v2.0.xlsx" ,'rb'), parse_cols = "J",sheetname='Food_Track')
+    df3 = df3.togetfood.tolist()
+
 	# recommendations
     all_reci = Food.objects.all().exclude(cook_cat="甜品")
     complete = []
@@ -214,9 +248,35 @@ def WTCView(request):
 
     template = loader.get_template('food/wtc_view.html')
     context = {
-        'all_storage_data': all_storage_data,
-		'all_planner': all_planner,
         'complete': complete,
         'oneless': oneless,
+        'storagetable': "<table class='table'>"+ storagetable[36:],
+        'df2':df2,
+        'df3':df3
     }
     return HttpResponse(template.render(context, request))
+
+
+
+def update_storage_view(request):
+
+    form = ExcelForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        if form["hhh"].value() == "1018":
+
+            os.remove(CUR_PATH + "media/Tracker_v2.0.xlsx")
+
+            excel = form.save(commit=False)
+            excel.save()
+
+            return HttpResponseRedirect("food/whattocook/")
+            #return render(request, 'food/wtc_view.html')
+
+    context = {"form": form,}
+    return render(request, 'food/storage_update_form.html', context)
+
+
+
+
+

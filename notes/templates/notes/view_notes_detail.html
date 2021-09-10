@@ -1,0 +1,73 @@
+{% extends 'notes/base.html' %}
+{% block title %}{{ notes.info_title }}{% endblock %}
+
+{% block body %}
+
+<div class="column">
+
+	<!-- One Button -->
+	<div class="col-sm-12">
+		<ul class="nav nav-pills">
+			<li role="presentation" class="active" style="margin-bottom: 10px;margin-right: 5px;margin-left:20px">
+				<a href='{{CUR_URL}}notes/{{pk}}/modify_notes' class="font-mid">
+					Modify Notes
+				</a>
+			</li>
+			<li role="presentation" class="active" style="margin-bottom: 10px;margin-right: 5px;">
+				<a href='{{CUR_URL}}notes/{{pk}}/continue' class="font-mid">
+					Continue Notes
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="col-sm-12" style="margin-top:20px">
+		<div style="padding-left:18px">
+			<font class="font-large color-main font-cali">{{ notes.info_title }}</font>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<font class="font-mid color-main">--- Back to</font>
+			<a href='{{CUR_URL}}notes/{{notes.note_type}}'>
+				<font class="font-mid color-main">{{notes.note_type}}
+			</a>
+
+			<a href='{{CUR_URL}}notes/{{notes.note_type}}/{{notes.sub_category}}'>
+				<font class="font-mid color-main">>>{{notes.sub_category}}</font>
+			</a>
+
+			<a href='{{CUR_URL}}notes/{{notes.note_type}}/{{notes.sub_category}}/{{notes.info_group}}'>
+				<font class="font-mid color-main">>>{{notes.info_group}}</font>
+			</a>
+			<table class="notes-table">
+				<colgroup>
+					<col span="1" style="width: 70%;max-width: 70%; min-width: 70%">
+					<col span="1" style="width: 25%;max-width: 25%; min-width: 25%">
+				</colgroup>
+				<tbody>
+					<tr style="border-bottom-width:1px" class="notes-light">
+						<td class="notes-content">
+							<div>
+								{% if notes.lang == 'N' %}
+								<pre><code class={{class_input}}>{{notes.info_text}}</code></pre>
+								{% else %}
+								<pre><code class= {{"language-"|add:notes.lang}} >{{notes.info_text}}</code></pre>
+								{% endif %}
+
+								{% if notes.pic_file %}
+								<img src="{{ notes.pic_file.url }}">
+								{% endif %}
+							</div>
+						</td>
+						<td class="notes-comment">
+							{% if notes.comment %}
+							<font class="font-small color-main font-con">
+								{{ notes.comment|linebreaks }}
+							</font>
+							{% endif %}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'notes/base.html' %}
+{% block title %}Add Notes{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="col-sm-offset-1 col-sm-10">
+        </br>
+        <div class="panel panel-primary">
+            <div class="panel-body">
+
+                <div style="margin-bottom:20px">
+                    <font class="font-xl font-cali font-thin color-main">Add Random Notes</font>
+                </div>
+
+                <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="form-group">
+
+                        {%if field.label == "Info text"%}
+                        <label class="control-label col-sm-2">
+                            <font class="font-large color-main font-cali font-thin">Content</font>
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="10" name="info_text"></textarea>
+                        </div>
+                        {%elif field.label == "Pic file"%}
+                        <label class="control-label col-sm-2">
+                            <font class="font-large color-main font-cali font-thin">Image</font>
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="file" class="font-large color-main font-cali font-thin" name="pic_file">
+                        </div>
+                        {%else%}
+                        <label class="control-label col-sm-2">
+                            <font class="font-large color-main font-cali font-thin">Put</font>
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="1" name="hhh"></textarea>
+                        </div>
+                        {%endif%}
+
+                    </div>
+                    {% endfor%}
+
+
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10" style="padding-left:15px">
+                            <button type="submit" class="btn btn-success createnotesbutton">Submit</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,50 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
+<head>
+  {% load static %}
 
-        <!--Set Page Title-->
-        <title>{% block title %}Peiying's Home Page{% endblock %}</title>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Code and Food" />
+  <meta name="keywords" content="Python, Peiying, notes" />
+  <meta name="author" content="Peiying" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!--Load pkgs & set background image-->
-        {% load staticfiles %}
-        <link rel="shortcut icon" type="image/png" href="{%  static 'web.ico' %}"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <body id="bg" style="background-image: url({% static 'notes/images/Background2.jpg' %}); background-size:cover";>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    </head>
-    
-    <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
+  <!--Set Page Title-->
+  <title>{% block title %}Peiying's Home Page{% endblock %}</title>
 
-                <!--Add the cute flower icon-->
-				<a class="navbar-brand"><img src="{%  static 'flower1.png' %}" width="25"/></a>
+  <!-- Icon -->
+  <link rel="shortcut icon" type="image/png" href="{%  static 'web.ico' %}" />
 
-                <!-- Header -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar"></button>
-                    <a class="navbar-brand" href="{% url 'notes:index' %}">Home Page</a>
-                </div>
+  <!--Load pkgs-->
+  <script src="{% static 'notes/jquery.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'notes/bootstrap.min.css' %}" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Cutive+Mono|Julius+Sans+One|Lekton|Nixie+One|Open+Sans+Condensed:300|Poiret+One"
+    rel="stylesheet" />
 
-                <!-- Items -->
-                <div class="collapse navbar-collapse" id="topNavBar">
+  <!--Load Prism-->
+  <script type="text/javascript" src="{% static '/notes/prism.js' %}"></script>
 
-                    <!-- Add Button -->
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="http://127.0.0.1:8000/notes/add/">
-                                <span class="glyphicon glyphicon-cd> aria-hidden="true"></span>Add
-                            </a>
-                        </li>
-                    </ul>				
+  <!--Don't display until fully loaded-->
+  <style>
+    body {
+      background-color: gray;
+      visibility: hidden;
+    }
+  </style>
 
-                </div>
-            </div>
-        </nav>
-        {% block body %}
-        {% endblock %}
-    </body>
+  <!-- Table of Contents -->
+  <link rel="stylesheet" href="{% static 'notes/tocbot.css' %}" />
+  <script src="{% static 'notes/tocbot.min.js' %}"></script>
+  <script>
+    jQuery(document).ready(function () {
+      tocbot.init({
+        tocSelector: '.js-toc',
+        contentSelector: '.js-toc-content',
+        headingSelector: 'h1, h2, h3, h4',
+        collapseDepth: 6,
+        scrollSmooth: true,
+        scrollSmoothDuration: 420,
+        positionFixedClass: 'is-position-fixed',
+        linkClass: 'toc-link'
+      });
+      tocbot.refresh();
+    });
+  </script>
+
+  <script src="{% static 'notes/jquery.waypoints.js' %}"></script>
+  <script src="{% static 'notes/infinite.js' %}"></script>
+
+</head>
+
+<script>
+  var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+  if (iOS) {
+    alert(
+      'This web is not designed for mobile platforms. Please use a computer.'
+    );
+  }
+</script>
+
+<body onload="checkCookie()">
+  <!-- Top nav bar -->
+  <nav class="navbar navbar-fixed-top navbar-custom navbar-expand">
+    <div class="container-fluid topbar">
+      <!-- Add the cute flower icon -->
+      <a class="navbar-brand" href="{% url 'food:index' %}"><img src="{%  static 'flower1.png' %}" width="25" /></a>
+
+      <!-- Header -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'notes:index' %}">
+          <font class="navbar-font">Home Page</font>
+        </a>
+      </div>
+
+      <!-- Items -->
+      <div class="collapse navbar-collapse" id="topNavBar">
+        <!-- Add Button -->
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <a href="{{ CUR_URL }}notes/add/">
+              <font class="navbar-font">Add</font>
+            </a>
+          </li>
+        </ul>
+        <!-- Theme Buttons -->
+        <ul class="nav nav-pills nav-dark pull-right">
+          <li role="presentation" class="active" style="margin-top:15px;margin-left:10px;">
+            <a id="darkButton" style="padding-top:0px">
+              <font size="1">Dark</font>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav nav-pills nav-light pull-right">
+          <li role="presentation" class="active" style="margin-top:15px">
+            <a id="lightButton" style="padding-top:0px">
+              <font size="1">Light</font>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  {% block body %} {% endblock %}
+</body>
+
 </html>
+
+<script type="text/javascript">
+  var color;
+
+  // set cookie
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = 'expires=' + d.toGMTString();
+    document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+  }
+
+  // get cookie value
+  function getCookie(cname) {
+    var name = cname + '=';
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return '';
+  }
+
+  // load local css
+  function loadcss(url) {
+    var head = document.getElementsByTagName('head')[0],
+      link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = url;
+    head.appendChild(link);
+    return link;
+  }
+
+  // don't display until fully loaded
+  function delay() {
+    var secs = 250;
+    setTimeout('initFadeIn()', secs);
+  }
+
+  function initFadeIn() {
+    jQuery('body').css('visibility', 'visible');
+    jQuery('body').css('display', 'none');
+    jQuery('body').fadeIn(250);
+  }
+
+  // load theme function
+  function load_dark() {
+    if (document.URL == 'http://mengjade.pythonanywhere.com/notes/') {
+      document.body.style.backgroundColor = 'black';
+    } else {
+      document.body.style.backgroundImage =
+        "url({% static 'notes/images/code2.jpg' %})";
+    }
+
+    document.body.style.backgroundSize = '100%';
+    localStorage.setItem(
+      'color',
+      JSON.stringify(['#A8A8A8', '#585858', '#707070', '#F5F5F5', '#FFFFFF'])
+    );
+    loadcss("{% static 'notes/prism_dark.css' %}");
+    loadcss("{% static 'notes/dark.css' %}");
+  }
+
+  function load_light() {
+    if (document.URL == 'http://mengjade.pythonanywhere.com/notes/') {
+      document.body.style.backgroundColor = '#edede6';
+    } else {
+      document.body.style.backgroundImage =
+        "url({% static 'notes/images/Background2.jpg' %})";
+    }
+
+    document.body.style.backgroundSize = '100%';
+    localStorage.setItem(
+      'color',
+      JSON.stringify(['#F5F5F5', '#F5F5F5', '#F5F5F5', '#F5F5F5', '#FFFFFF'])
+    );
+    loadcss("{% static 'notes/light.css' %}");
+    loadcss("{% static 'notes/prism.css' %}");
+  }
+
+  // load theme setting when go to a new page
+  function checkCookie() {
+    $('#container').css('opacity', 0);
+
+    var is_dark = getCookie('is_dark');
+
+    if (is_dark == '') {
+      load_dark();
+      setCookie('is_dark', 'True', 30);
+    } else {
+      if (is_dark == 'True') {
+        load_dark();
+      } else {
+        load_light();
+      }
+    }
+
+    // finish loading css. delay the display until fully loaded
+    jQuery(document).ready(function () {
+      delay();
+    });
+  }
+
+  // link with buttons to switch theme
+  document.getElementById('darkButton').onclick = switchDark;
+  document.getElementById('lightButton').onclick = switchLight;
+
+  function switchDark() {
+    setCookie('is_dark', 'True', 30);
+    load_dark();
+    location.reload();
+  }
+
+  function switchLight() {
+    setCookie('is_dark', 'False', 30);
+    load_light();
+    location.reload();
+  }
+</script>

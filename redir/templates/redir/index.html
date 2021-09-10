@@ -1,0 +1,55 @@
+{% extends 'redir/base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+<title>{% block title %}Home Page{% endblock %}</title>
+
+    <style>
+	.panel{
+		border: none;
+	}
+
+	.panel{
+	background: none;
+	}
+
+	.content {
+	  position: absolute;
+	  top: 50%;
+	  left:50%;
+	  transform: translate(-50%,-50%);
+	  }
+
+    .panel.panel-primary{
+        background-color: rgba(245,245,245,0);
+        border: 0;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    </style>
+
+	<div class = "content" >
+        -----------------------------------------------------------------</br>
+        <a href='{{CUR_URL}}redir/aboutus'>
+            <font face="Sawasdee" size="4" style="color:white">> About us </font></br>
+        </a>
+
+        <a href='{{CUR_URL}}redir/teaching'>
+            <font face="Sawasdee" size="4" style="color:white">> Teaching </font></br>
+        </a>
+
+        <a href='{{CUR_URL}}notes'>
+            <font face="Sawasdee" size="4" style="color:white">> Notes </font></br>
+        </a>
+
+        <a href='{{CUR_URL}}food'>
+            <font face="Sawasdee" size="4" style="color:white">> Recipes </font></br>
+        </a>
+        -----------------------------------------------------------------</br>
+
+	</div>
+
+{% endblock %}

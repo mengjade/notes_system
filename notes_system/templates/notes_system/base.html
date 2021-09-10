@@ -8,7 +8,7 @@
         <title>{% block title %}Peiying's Home Page{% endblock %}</title>
 
         <!--Load pkgs & set background image-->
-        {% load staticfiles %}
+        {% load static %}
         <link rel="shortcut icon" type="image/png" href="{%  static 'web.ico' %}"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
@@ -18,14 +18,9 @@
 
 	<style>
 body {
-    background-color: #85A6C6;
+    background-color: black;
 }
-		div {
-		  background: url({% static 'food/images/b6.jpg' %});
-    background-repeat:no-repeat;
-    background-size:100% 100%;
-		  /* first image is 300x100, second image covers the whole area */
-		}
+
 	</style>
 
 

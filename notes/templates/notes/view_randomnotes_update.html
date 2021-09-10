@@ -1,0 +1,58 @@
+{% extends 'notes/base.html' %}
+{% block title %}Modify Notes{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+	<div class="col-sm-offset-1 col-sm-10">
+		</br>
+		<div class="panel panel-primary">
+
+
+			<div class="panel-body">
+				<font class="createnotes-font2">Modify Notes</font>
+				<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% for field in form %}
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sum-10">
+							<span class="text-danger small">{{field.errors}}</span>
+						</div>
+						{%if field.label == "Info text"%}
+						<label class="control-label col-sm-2">
+							<font class="font-large color-main font-cali font-thin">Content</font>
+						</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="10" name="info_text">{{field.value}}</textarea>
+						</div>
+						{%elif field.label == "Pic file"%}
+						<label class="control-label col-sm-2">
+							<font class="font-large color-main font-cali font-thin">Image</font>
+						</label>
+						<div class="col-sm-10 font-large color-main font-cali font-thi">
+							{{field}}
+						</div>
+						{%else%}
+						<label class="control-label col-sm-2">
+							<font class="font-large color-main font-cali font-thin">Put</font>
+						</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="1" name="hhh"></textarea>
+						</div>
+						{%endif%}
+					</div>
+					{% endfor%}
+
+					<!-- Submit Button -->
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10" style="padding-left:15px">
+							<input type="submit" class="btn btn-default createnotesbutton"
+								href="{{CUR_URL}}notes/{{ form.pk.label }}" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	{% endblock %}

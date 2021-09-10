@@ -1,0 +1,17 @@
+{% extends 'notes/base.html' %}
+{% block title %}Random Notes{% endblock %}
+
+{% block body %}
+
+    {% for note in all_data %}
+
+        <font class="notes-font1">{{note.info_text}}</font>
+        {{note.pk}}
+        <img src="{{ note.pic_file.url }}" class="img-responsive">
+
+    {% endfor %}
+
+
+
+    </div>
+{% endblock %}

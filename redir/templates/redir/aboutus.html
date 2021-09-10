@@ -1,0 +1,95 @@
+{% extends 'redir/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<title>{% block title %}About us{% endblock %}</title>
+    <style>
+	.panel{
+		border: none;
+	}
+
+	.panel{
+	background: none;
+	}
+
+	.content {
+	  position: absolute;
+	  top: 50%;
+	  left:50%;
+	  transform: translate(-50%,-50%);
+	  }
+
+    .panel.panel-primary{
+        background-color: rgba(245,245,245,0);
+        border: 0;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    hr{
+        padding: 0px;
+        margin: 0px;
+    }
+
+    </style>
+
+    <a href='{{CUR_URL}}redir/'><font face="Sawasdee" size="2" style="color:white">&nbsp;&nbsp;&nbsp;&nbsp;> Back to Home Page </font></br></a>
+
+	<div class = "content" >
+    </br></br></br></br></br>
+
+        <font face="Sawasdee" size="10" style="color:#FA5B75"><b></br></br></br> About us </b></font>
+        <hr style="border-top: 1px dashed gray"/></br>
+        <font face="Sawasdee" size="3" style="color:white">
+            This website is the home (page) for Peiying and Huiyi.</br>
+
+            We met in University of Toronto and went to University of Waterloo together for graduate studies.</br></br>
+
+            <font face="Sawasdee" size="5" style="color:white"><b> Peiying </b></font> is in Statistics and Computer Science, with an emphasis in data science (machine learning).
+
+            Peiying has publications on <i>Elicitation, measuring bias, checking for prior-data conflict and inference with a Dirichlet prior </i>.
+
+            And Peiying is now working for one of the big five banks in Toronto in Capital Markets - Sales and Trading.</br>
+
+            <font face="Sawasdee" size="5" style="color:white"><b> Huiyi </b></font> studied mathematics and statistics at UofT and chose to go for Financial Engineering for her Master’s degree.
+
+            Huiyi has a research interest in quantitative modeling and portfolio construction.
+
+            She studied investments in the cryptocurrency market and managed to arbitrage the market in 2017.
+
+            She is now focusing on the mean reverting trading strategy for cryptocurrencies.
+
+            Also, see the link below for one of Huiyi’s research paper on <i> Stylized Facts of the Bitcoin Market and A Sentiment-Base Model for the Bitcoin </i>.
+
+            And Huiyi is now working for one of the largest pension plans in North America, in Portfolio Engineering. </br></br>
+
+
+            This website is designed by Peiying and implemented by Peiying and Huiyi using Python, Django. </br>
+
+            It has 3 sections, namely, Knowledge, Cooking and Teaching.</br>
+            <ul style="list-style-type:none">
+              <li>- Knowledge has some useful notes on various programming languages</li>
+              <li>- Cooking contains all the recipes we used in our daily life</li>
+              <li>- Teaching is a new section and is still under construction. We plan to upload some useful notes/suggestions about undergrad studies.</li>
+            </ul>
+
+            <a href='https://arxiv.org/abs/1703.03023'><i>Elicitation, measuring bias, checking for prior-data conflict and inference with a Dirichlet prior </i> </a> </br>
+            <a href='http://mengjade.pythonanywhere.com/redir/bitcoinpricing/'><i> Stylized Facts of the Bitcoin Market and A Sentiment-Base Model for the Bitcoin </i></a>
+        </br></br>
+        </font>
+        <hr style="border-top: 1px dashed gray"/>
+        </br>
+
+
+        <font face="Sawasdee" size="5" style="color:white"><b> Academic Awards </b></font>
+        </br>
+        <font face="Sawasdee" size="3" style="color:white">
+            Peiying and Huiyi have both be rewarded the University of Toronto Scholar twice in their undergraduate. Huiyi won the prize for the year 2011 and 2012, while Peiying had it in 2013 and 2014.</br>
+            UofT Scholar is rewared to individuals rank as the top 10 in each academic year.
+            Peiying has also rewared the graduation prize at graduation.
+
+</br></br></br></br></br></br>
+	</div>
+
+{% endblock %}

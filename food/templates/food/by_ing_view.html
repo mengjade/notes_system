@@ -2,9 +2,24 @@
 {% block title %}Search by Ingredients{% endblock %}
 
 {% block body %}
+
+    <style>
+        .panel {
+            border: 0;
+        }
+
+        .panel.panel-primary{
+            background-color: rgba(255, 255, 255, 0.90);
+            border-color: rgba(195, 198, 204);
+        }
+    </style>
+
 	<div class="col-sm-offset-1 col-sm-10">
-		</br>
-		<div class="panel panel-default">
+
+        </br>
+        </br>
+        </br>
+		<div class="panel panel-primary">
 		    <div class="panel-body">
 		        <table class="table">
 
@@ -16,22 +31,29 @@
 					<thead>
 						<font size="10" color="#2E4053" face="Asana Math"> Ingredients</font>
 					</thead>
-						
+
 					<tbody>
 						<td>
 							{% for ing, ing_en, c in all_cook_ing_meat %}
 								</br>
-								<span class="glyphicon glyphicon-book" style="color:#FA8072"></span> {{c}}
-								<a href='http://127.0.0.1:8000/food/recipe/cook_ing/{{ing_en}}'><font size="3" color="#2E4053"> {{ ing }} </font> </a>
-								
+								{% if c|length == 2 %}
+                                    <span class="glyphicon glyphicon-book" style="color:#FA8072"></span>  {{ c }}
+                                {% else %}
+                                    <span class="glyphicon glyphicon-book" style="color:#FA8072"></span>  {{ c }} &nbsp;
+                                {% endif %}
+								<a href='{{CUR_URL}}food/recipe/cook_ing/{{ing_en}}'><font size="3" color="#2E4053"> {{ ing }} </font> </a>
 							{% endfor %}
 						</td>
 
 						<td>
 							{% for ing, ing_en, c in all_cook_ing %}
-								</br>
-								<span class="glyphicon glyphicon-book" style="color:#FA8072"></span> {{c}}
-								<a href='http://127.0.0.1:8000/food/recipe/cook_ing/{{ing_en}}'><font size="3" color="#2E4053"> {{ ing }} </font> </a>
+							    </br>
+								{% if c|length == 2 %}
+                                    <span class="glyphicon glyphicon-book" style="color:#FA8072"></span>  {{ c }}
+                                {% else %}
+                                    <span class="glyphicon glyphicon-book" style="color:#FA8072"></span>  {{ c }} &nbsp;
+                                {% endif %}
+								<a href='{{CUR_URL}}food/recipe/cook_ing/{{ing_en}}'><font size="3" color="#2E4053"> {{ ing }} </font> </a>
 							{% endfor %}
 						</td>
 

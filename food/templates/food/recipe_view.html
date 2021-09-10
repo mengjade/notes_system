@@ -13,29 +13,38 @@
             color:white;
         }
 
-    	.panel-body {
-    	    background:#ffffff;
+        .panel {
+            border: 0;
         }
 
+        .panel.panel-primary{
+            background-color: rgba(255, 255, 255, 0.90);
+            border-color: rgba(195, 198, 204);
+            width: 100% !important;
+        }
+
+    .table {
+        max-width: none;
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
     </style>
 
 
     <div class="col-sm-offset-1 col-sm-10">
 
-		
+        </br>
+        </br>
+        </br>
 
-	    <div class="col-sm-12">
-	       <ul class="nav nav-pills" style="margin-bottom: 10px;">
+	       <ul class="nav nav-pills">
 	           {% for cat, cat_en in all_cook_cat %}
-	               <li role="presentation" class="active" ><a href='http://127.0.0.1:8000/food/recipe/cook_cat/{{cat_en}}'>{{cat}}</a></li>
+	               <li role="presentation" class="active" style="margin-bottom: 10px;margin-right: 5px;" ><a href='{{CUR_URL}}food/recipe/cook_cat/{{cat_en}}'>{{cat}}</a></li>
 	           {% endfor %}
 	       </ul>
-	    </div>
 
-    
-		<div class="col-sm-12">
-			<div class="panel panel-default">
-			    <div class="panel-body">
+			<div class="panel panel-primary">
+			    <div class="panel-body" >
 			        <table class="table">
 
 
@@ -43,13 +52,7 @@
 			            <tbody>
 			                {% for food in all_data %}
 							    <thead>
-							        <tr>
-										<td bgcolor="F2F2F2"> 
-											<a href='http://127.0.0.1:8000/food/{{food.pk}}'> 
-												<font color="#6a6b6d"><b>{{ food.cook_name }}</b></font>
-											</a>
-										</td>
-									</tr>
+							            <th bgcolor="#F2F2F2"><a href='{{CUR_URL}}food/{{food.pk}}'> <font color="#6a6b6d"><b>{{ food.cook_name }}</b></font>	</a></th>
 							    </thead>
 
 						        <tr>
@@ -70,7 +73,6 @@
 			        </table>
 			    </div>
 			</div>
-		</div>
 
 
 
